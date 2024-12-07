@@ -1,0 +1,307 @@
+definitions:
+  handler.Response:
+    properties:
+      data: {}
+      description:
+        type: string
+      status:
+        type: integer
+    type: object
+  models.CreateSong:
+    properties:
+      genres:
+        items:
+          type: string
+        type: array
+      group_name:
+        type: string
+      link:
+        type: string
+      lyrics:
+        type: string
+      release_date:
+        type: string
+      song_name:
+        type: string
+    type: object
+  models.GetSongResponse:
+    properties:
+      songs:
+        items:
+          $ref: '#/definitions/models.Song'
+        type: array
+    type: object
+  models.Song:
+    properties:
+      created_at:
+        type: string
+      genres:
+        items:
+          type: string
+        type: array
+      group_name:
+        type: string
+      id:
+        type: string
+      link:
+        type: string
+      lyrics:
+        type: string
+      release_date:
+        type: string
+      song_name:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  models.UpdateSong:
+    properties:
+      genres:
+        items:
+          type: string
+        type: array
+      group_name:
+        type: string
+      id:
+        type: string
+      link:
+        type: string
+      lyrics:
+        type: string
+      release_date:
+        type: string
+      song_name:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /song:
+    get:
+      consumes:
+      - application/json
+      description: Get Songs List
+      operationId: get_song_list
+      parameters:
+      - description: offset
+        in: query
+        name: offset
+        type: integer
+      - description: limit
+        in: query
+        name: limit
+        type: integer
+      - description: search
+        in: query
+        name: search
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: GetAllSongResponseBody
+          schema:
+            $ref: '#/definitions/models.GetSongResponse'
+        "400":
+          description: Invalid Argument
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+        "500":
+          description: Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      security:
+      - ApiKeyAuth: []
+      summary: Get Songs List
+      tags:
+      - Song
+    post:
+      consumes:
+      - application/json
+      description: Create Song
+      operationId: create_song
+      parameters:
+      - description: CreateSongRequestBody
+        in: body
+        name: object
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateSong'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: SongBody
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.Song'
+              type: object
+        "400":
+          description: Invalid Argument
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+        "500":
+          description: Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: Create Song
+      tags:
+      - Song
+    put:
+      consumes:
+      - application/json
+      description: Update Song
+      operationId: update_song
+      parameters:
+      - description: UpdateSong
+        in: body
+        name: object
+        required: true
+        schema:
+          $ref: '#/definitions/models.UpdateSong'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Song data
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.Song'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+        "500":
+          description: Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: Update Song
+      tags:
+      - Song
+  /song/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete Song
+      operationId: delete_song
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Song data
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  type: object
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+        "500":
+          description: Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: Delete Song
+      tags:
+      - Song
+    get:
+      consumes:
+      - application/json
+      description: Get Song
+      operationId: get_song
+      parameters:
+      - description: id
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: GetListSongResponseBody
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+        "400":
+          description: Invalid Argument
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+        "500":
+          description: Server Error
+          schema:
+            allOf:
+            - $ref: '#/definitions/handler.Response'
+            - properties:
+                data:
+                  type: string
+              type: object
+      summary: Get Song
+      tags:
+      - Song
+swagger: "2.0"
